@@ -10,8 +10,8 @@ const Auth = () => {
     password: "",
   });
   const [registerData, setRegisterData] = useState({
-    name: "",
-    surname: "",
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
   });
@@ -22,7 +22,7 @@ const Auth = () => {
     console.log(loginData);
 
     axios
-      .post("http://localhost:8080/api/user/login", loginData)
+      .post("http://localhost:8080/api/user/login", JSON.stringify(loginData))
       .then((res) => {
         console.log(res);
       })
@@ -37,7 +37,10 @@ const Auth = () => {
     console.log(registerData);
 
     axios
-      .post("http://localhost:8080/api/user/register", registerData)
+      .post(
+        "http://localhost:8080/api/user/register",
+        JSON.stringify(registerData)
+      )
       .then((res) => {
         console.log(res);
       })
@@ -95,17 +98,20 @@ const Auth = () => {
               <label>First name</label>
               <input
                 type="text"
-                value={registerData.name}
+                value={registerData.firstname}
                 onChange={(e) =>
-                  setRegisterData({ ...registerData, name: e.target.value })
+                  setRegisterData({
+                    ...registerData,
+                    firstname: e.target.value,
+                  })
                 }
               ></input>
               <label>Last name</label>
               <input
                 type="text"
-                value={registerData.surname}
+                value={registerData.lastname}
                 onChange={(e) =>
-                  setRegisterData({ ...registerData, surname: e.target.value })
+                  setRegisterData({ ...registerData, lastname: e.target.value })
                 }
               ></input>
               <label>E-mail</label>
