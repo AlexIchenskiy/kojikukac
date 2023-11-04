@@ -79,8 +79,8 @@ func AddReservation(c *gin.Context) {
 		c.Abort()
 		return
 	}
-
 	c.JSON(200, gin.H{
 		"Message": "Sucessfully reserved",
 	})
+
 }

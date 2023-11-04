@@ -24,16 +24,16 @@ func main() {
 	// Initialize Router
 	router := gin.Default()
 	api := router.Group("/api")
-	user := api.Group("/user")
+	user := api.Group("/user").Use(middleware.Cors())
 	user.POST("/login", controllers.Login)
-	user.POST("/register", controllers.Register)
-	user.GET("/", controllers.Profile).Use(middleware.Auth())
+	user.POST("/register", controllers.Register).Use(middleware.Cors())
+	user.GET("/", controllers.Profile).Use(middleware.Auth(), middleware.Cors())
 
-	reservation := api.Group("/reservation")
+	reservation := api.Group("/reservation").Use(middleware.Cors()).Use(middleware.Cors())
 	reservation.POST("/delete", controllers.Profile).Use(middleware.Auth())
-    reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth())
+	reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth())
 
-	api.POST("/search")
+	api.POST("/search").Use(middleware.Cors())
 
 	router.Run(":8080")
 }
