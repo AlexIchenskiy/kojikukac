@@ -1,0 +1,43 @@
+@use '../../assets/styles/colors';
+
+header {
+  width: 100%;
+  height: 10%;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: colors.$primary;
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+    &-logo {
+      width: 32px;
+      height: 32px;
+      margin-right: 12px;
+      color: colors.$secondary;
+    }
+
+    &-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: colors.$secondary;
+    }
+  }
+
+  .user-container {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: colors.$secondary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: colors.$primary;
+    cursor: pointer;
+  }
+}
