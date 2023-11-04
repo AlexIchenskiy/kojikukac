@@ -1,5 +1,8 @@
 import React from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { useRecoilValue } from "recoil";
+
+import { parkingLotsState } from "../../store/state";
 
 const containerStyle = {
   width: "100%",
@@ -14,8 +17,10 @@ const center = {
 function Map() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "YOUR_API_KEY",
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
   });
+
+  const parkingLots = useRecoilValue(parkingLotsState);
 
   const [map, setMap] = React.useState(null);
 
@@ -23,6 +28,8 @@ function Map() {
     // This is just an example of getting and using the map instance!!! don't just blindly copy!
     const bounds = new window.google.maps.LatLngBounds(center);
     map.fitBounds(bounds);
+
+    console.log(parkingLots);
 
     setMap(map);
   }, []);
