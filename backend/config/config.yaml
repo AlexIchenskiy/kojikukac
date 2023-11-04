@@ -1,0 +1,10 @@
+jmbag: 00363912345 
+http: 
+  address: 127.0.0.1
+  port: 80
+users:
+  - name: Antonia Sarcevic
+    jmbag: 0036540336
+    password: lozinka #extra-usebcryptorsomethingsimilar
+  - name: admin 
+    password: adminpwd #extra-istokaoizaprethodnogusera
