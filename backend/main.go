@@ -22,35 +22,22 @@ func main() {
 	database.GlobalDB.AutoMigrate(&models.User{})
 
 	// Initialize Router
-	router := setupRouter()
-	router.Run(":8080")
-}
+	router := gin.Default()
+	api := router.Group("/api")
+	user := api.Group("/user")
+	user.POST("/user/login", controllers.Login)
+	user.POST("/user/register", controllers.Register)
+	user.GET("/user", controllers.Profile).Use(middleware.Auth())
 
-func setupRouter() *gin.Engine {
-	// Create a new router
-	r := gin.Default()
-	// Add a welcome route
-	r.GET("/", func(c *gin.Context) {
-		c.String(200, "Welcome To This Website")
-	})
-	// Create a new group for the API
-	api := r.Group("/api")
-	{
-		// Create a new group for the public routes
-		public := api.Group("/public")
-		{
-			// Add the login route
-			public.POST("/login", controllers.Login)
-			// Add the signup route
-			public.POST("/register", controllers.Register)
-		}
-		// Add the signup route
-		protected := api.Group("/protected").Use(middleware.Auth())
-		{
-			// Add the profile route
-			protected.GET("/profile", controllers.Profile)
-		}
-	}
-	// Return the router
-	return r
+	reservation := api.Group("/reservation")
+	reservation.POST("/add", controllers.Profile).Use(middleware.Auth())
+	reservation.POST("/delite", controllers.Profile).Use(middleware.Auth())
+
+	search := api.Group("/search")
+	search.POST("/location")
+	search.POST("/type")
+	search.POST("/availability")
+	search.POST("/price")
+
+	router.Run(":8080")
 }
