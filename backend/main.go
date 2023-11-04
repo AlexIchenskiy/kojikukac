@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/consumer"
 	"backend/controllers"
 	"backend/database"
 	"backend/middleware"
@@ -36,6 +37,8 @@ func main() {
 	api.GET("/ParkingSpot/getAll", controllers.GetParking).Use(middleware.Auth(), middleware.Cors())
 
 	api.POST("/search").Use(middleware.Cors())
+
+	go consumer.Consume("goroutine")
 
 	router.Run(":8080")
 }
