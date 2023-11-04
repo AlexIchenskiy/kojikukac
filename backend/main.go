@@ -1,32 +1,56 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"backend/controllers"
+	"backend/database"
+	"backend/middleware"
+	"backend/models"
+	"log"
 
-	"Projekt/handlers"
-	"Projekt/middleware"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-
-	http.HandleFunc("/api/reservation/add", handlers.AddReservationHandler)
-	http.HandleFunc("/api/reservation/delete", handlers.DelReservationHandler)
-	http.HandleFunc("/api/search", handlers.SearchHandler)
-	http.HandleFunc("/api/get/status", handlers.StatusHandler)
-	http.HandleFunc("/api/user/login", middleware.Authenticate(handlers.SumHandler))
-	http.HandleFunc("/api/user/register", middleware.Register(handlers.SumHandler))
-	http.HandleFunc("/api/user/", middleware.GetUser(handlers.SumHandler))
-
-	/*	http.HandleFunc("/jmbag", handlers.JmbagHandler)
-		http.HandleFunc("/sum", login.Authenticate(handlers.SumHandler))
-		http.HandleFunc("/fetch", handlers.FetchHandler)
-		http.HandleFunc("/0036540336", login.Authenticate(handlers.MyJmbagHandler))
-		http.HandleFunc("/saxpy", login.Authenticate(handlers.SaxpyHandler))
-	*/
-	err1 := http.ListenAndServe("127.0.0.1:3000", nil)
-	if err1 != nil {
-		fmt.Println("Server error:", err1)
+	// Initialize the database
+	err := database.InitDatabase()
+	if err != nil {
+		// Log the error and exit
+		log.Fatalln("could not create database", err)
 	}
+	// Automigrate the User model
+	// AutoMigrate() automatically migrates our schema, to keep our schema upto date.
+	database.GlobalDB.AutoMigrate(&models.User{})
 
+	// Initialize Router
+	router := setupRouter()
+	router.Run(":8080")
+}
+
+func setupRouter() *gin.Engine {
+	// Create a new router
+	r := gin.Default()
+	// Add a welcome route
+	r.GET("/", func(c *gin.Context) {
+		c.String(200, "Welcome To This Website")
+	})
+	// Create a new group for the API
+	api := r.Group("/api")
+	{
+		// Create a new group for the public routes
+		public := api.Group("/public")
+		{
+			// Add the login route
+			public.POST("/login", controllers.Login)
+			// Add the signup route
+			public.POST("/register", controllers.Register)
+		}
+		// Add the signup route
+		protected := api.Group("/protected").Use(middleware.Auth())
+		{
+			// Add the profile route
+			protected.GET("/profile", controllers.Profile)
+		}
+	}
+	// Return the router
+	return r
 }
