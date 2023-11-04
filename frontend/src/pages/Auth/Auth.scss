@@ -10,6 +10,10 @@
   background-size: cover;
   background-repeat: no-repeat;
   
+  & * {
+    transition: 0.3s all;
+  }
+  
   &::before {
     content: '';
     position: absolute;
