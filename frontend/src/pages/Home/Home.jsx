@@ -1,14 +1,14 @@
-import Header from '../../components/header/Header';
-import './Home.scss';
+import Header from "../../components/header/Header";
+import Maps from "../../components/maps/Maps";
+import "./Home.scss";
 
 const Home = () => {
   return (
     <>
       <Header />
-      <section>
-      </section>
+      <Maps />
     </>
   );
-}
+};
 
 export default Home;
