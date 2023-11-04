@@ -19,9 +19,9 @@ import (
 )
 
 type ParkingSpotUpdate struct {
-	id           string
-	occupied     bool
-	occupiedTime string
+	Id         string
+	IsOccupied bool
+	Time       string
 }
 
 type ParkingSpot struct {
@@ -58,18 +58,17 @@ func main() {
 	for {
 		msg, err := c.ReadMessage(-1)
 		if err == nil {
-			fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
-
-			err1 := json.Unmarshal([]byte(msg.Value), &newspot)
+			fmt.Printf("%s\n", string(msg.Value))
+			err1 := json.Unmarshal([]byte(string(msg.Value)), &newspot)
 
 			if err1 != nil {
 				fmt.Printf("%s\n", err1)
-			}
+			} else {
 
-			fmt.Printf("Struct is:", newspot)
-			fmt.Printf("Id is:%s\n", newspot.id)
-			fmt.Printf("Occupied is:%t\n", newspot.occupied)
-			fmt.Printf("Time is:%s\n", newspot.occupiedTime)
+				fmt.Printf("Id is:%s\n", newspot.Id)
+				fmt.Printf("Occupied is:%t\n", newspot.IsOccupied)
+				fmt.Printf("Time is:%s\n", newspot.Time)
+			}
 			break
 		} else {
 			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
