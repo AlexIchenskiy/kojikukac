@@ -25,19 +25,15 @@ func main() {
 	router := gin.Default()
 	api := router.Group("/api")
 	user := api.Group("/user")
-	user.POST("/user/login", controllers.Login)
-	user.POST("/user/register", controllers.Register)
-	user.GET("/user", controllers.Profile).Use(middleware.Auth())
+	user.POST("/login", controllers.Login)
+	user.POST("/register", controllers.Register)
+	user.GET("/", controllers.Profile).Use(middleware.Auth())
 
 	reservation := api.Group("/reservation")
 	reservation.POST("/add", controllers.Profile).Use(middleware.Auth())
 	reservation.POST("/delite", controllers.Profile).Use(middleware.Auth())
 
-	search := api.Group("/search")
-	search.POST("/location")
-	search.POST("/type")
-	search.POST("/availability")
-	search.POST("/price")
+	api.POST("/search")
 
 	router.Run(":8080")
 }
