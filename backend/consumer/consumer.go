@@ -1,3 +1,5 @@
+package consumer
+
 //Copyright (c) Microsoft Corporation. All rights reserved.
 //Copyright 2016 Confluent Inc.
 //Licensed under the MIT License.
@@ -8,9 +10,6 @@
 export KAFKA_EVENTHUB_ENDPOINT="cbq-hackathon.servicebus.windows.net:9093"
 export KAFKA_EVENTHUB_CONNECTION_STRING="Endpoint=sb://cbq-hackathon.servicebus.windows.net/;SharedAccessKeyName=n;SharedAccessKey=p3fH0pzw46YajywaIyAaWRK+HGqMBLgBV+AEhNWlq+4=;EntityPath=team8"
 */
-
-package main
-
 import (
 	"encoding/json"
 	"fmt"
