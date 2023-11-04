@@ -49,11 +49,11 @@ func Consume(from string) {
 
 	// https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
-		"bootstrap.servers": os.Getenv("KAFKA_EVENTHUB_ENDPOINT"),
+		"bootstrap.servers": "cbq-hackathon.servicebus.windows.net:9093",
 		"sasl.mechanisms":   "PLAIN",
 		"security.protocol": "SASL_SSL",
 		"sasl.username":     "$ConnectionString",
-		"sasl.password":     os.Getenv("KAFKA_EVENTHUB_CONNECTION_STRING"),
+		"sasl.password":     "Endpoint=sb://cbq-hackathon.servicebus.windows.net/;SharedAccessKeyName=n;SharedAccessKey=p3fH0pzw46YajywaIyAaWRK+HGqMBLgBV+AEhNWlq+4=;EntityPath=team8",
 		"group.id":          consumerGroup,
 		"auto.offset.reset": "earliest",
 		"debug":             "consumer",
