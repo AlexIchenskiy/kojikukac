@@ -5,14 +5,18 @@ services:
     image: mysql:latest
     container_name: my-mysql-container
     environment:
-      DB_USERNAME: root
-      DB_PASSWORD: password
-      DB_DATABASE: database_name
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: database_name
       DATABASE_HOST: 127.0.0.1
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - "3307:8080"
 
 volumes:
   mysql_data:

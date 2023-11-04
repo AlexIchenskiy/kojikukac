@@ -30,7 +30,7 @@ type LoginResponse struct {
 // If successful, it returns a 200 status code with a success message
 // If unsuccessful, it returns a 400 or 500 status code with an error message
 
-func Register(c *gin.Context) {
+/*func Register(c *gin.Context) {
 	var user models.User
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
@@ -62,7 +62,7 @@ func Register(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"Message": "Sucessfully Register",
 	})
-}
+}*/
 
 // Login is a function that handles user login
 // It takes in a gin context as an argument and binds the user data from the request body to a LoginPayload struct

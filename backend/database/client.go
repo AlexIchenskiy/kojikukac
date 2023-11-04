@@ -25,7 +25,7 @@ func InitDatabase() (err error) {
 
 	// Create the data source name (DSN) using the environment variables
 	dsn := fmt.Sprintf(
-		"%s:%s@tcp(%s:3306)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		"%s:%s@(%s:3306)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		config["DB_USERNAME"],
 		config["DB_PASSWORD"],
 		config["DATABASE_HOST"],
