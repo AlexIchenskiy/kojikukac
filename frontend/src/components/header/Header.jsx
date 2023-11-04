@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { FaMapMarkedAlt } from 'react-icons/fa';
 
 import './Header.scss';
@@ -5,10 +6,10 @@ import './Header.scss';
 const Header = () => {
   return (
     <header>
-      <div className='logo-container'>
+      <Link to='/home' className='logo-container'>
         <FaMapMarkedAlt className='logo-container-logo' />
         <span className='logo-container-title'>BurekParking</span>
-      </div>
+      </Link>
       <div className='user-container'>A</div>
     </header>
   )
