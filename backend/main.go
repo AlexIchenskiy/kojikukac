@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/consumer"
 	"backend/controllers"
 	"backend/database"
 	"backend/middleware"
@@ -38,6 +39,8 @@ func main() {
 	search.POST("/type")
 	search.POST("/availability")
 	search.POST("/price")
+
+	go consumer.Consume("goroutine")
 
 	router.Run(":8080")
 }
