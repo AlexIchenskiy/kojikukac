@@ -25,15 +25,16 @@ func main() {
 	router := gin.Default()
 	api := router.Group("/api")
 	user := api.Group("/user")
-	user.POST("/login", controllers.Login)
-	user.POST("/register", controllers.Register)
-	user.GET("/", controllers.Profile).Use(middleware.Auth())
+	user.POST("/login", controllers.Login).Use(middleware.Cors())
+	user.POST("/register", controllers.Register).Use(middleware.Cors())
+	user.GET("/", controllers.Profile).Use(middleware.Auth(), middleware.Cors())
 
 	reservation := api.Group("/reservation")
-	reservation.POST("/add", controllers.Profile).Use(middleware.Auth())
-	reservation.POST("/delete", controllers.Profile).Use(middleware.Auth())
+	reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
 
-	api.POST("/search")
+	api.GET("/ParkingSpot/getAll", controllers.GetParking).Use(middleware.Auth(), middleware.Cors())
+
+	api.POST("/search").Use(middleware.Cors())
 
 	router.Run(":8080")
 }
