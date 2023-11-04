@@ -120,6 +120,10 @@
               background-color: colors.$secondary;
               color: colors.$primary;
             }
+
+            &:active {
+              transform: scale(1.05);
+            }
           }
         }
   
