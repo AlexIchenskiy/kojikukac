@@ -1,17 +1,10 @@
-import { FaMapMarkedAlt } from 'react-icons/fa';
-
+import Header from '../../components/header/Header';
 import './Home.scss';
 
 const Home = () => {
   return (
     <>
-      <header>
-        <div className='logo-container'>
-          <FaMapMarkedAlt className='logo-container-logo' />
-          <span className='logo-container-title'>BurekParking</span>
-        </div>
-        <div className='user-container'>A</div>
-      </header>
+      <Header />
       <section>
       </section>
     </>
