@@ -14,7 +14,9 @@ func main() {
 	http.HandleFunc("/api/reservation/delete", handlers.DelReservationHandler)
 	http.HandleFunc("/api/search", handlers.SearchHandler)
 	http.HandleFunc("/api/get/status", handlers.StatusHandler)
-	http.HandleFunc("/api/login", login.Authenticate(handlers.SumHandler))
+	http.HandleFunc("/api/user/login", login.Authenticate(handlers.SumHandler))
+	http.HandleFunc("/api/user/register", login.Authenticate(handlers.SumHandler))
+	http.HandleFunc("/api/user/", login.Authenticate(handlers.SumHandler))
 
 	/*	http.HandleFunc("/jmbag", handlers.JmbagHandler)
 		http.HandleFunc("/sum", login.Authenticate(handlers.SumHandler))
