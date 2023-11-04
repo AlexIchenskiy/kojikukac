@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func addReservation(c *gin.Context) {
+func AddReservation(c *gin.Context) {
 	// HTTP endpoint
 	postURL := "https://hackathon.kojikukac.com/swagger/api/ParkingSpot/reserve"
 	token := "a70b5e43-4881-45e5-8a6b-858628c93ab6"
@@ -79,8 +79,8 @@ func addReservation(c *gin.Context) {
 		c.Abort()
 		return
 	}
+
 	c.JSON(200, gin.H{
 		"Message": "Sucessfully reserved",
 	})
-
 }

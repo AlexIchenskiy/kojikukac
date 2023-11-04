@@ -30,8 +30,8 @@ func main() {
 	user.GET("/", controllers.Profile).Use(middleware.Auth())
 
 	reservation := api.Group("/reservation")
-	reservation.POST("/add", controllers.addReservation).Use(middleware.Auth())
 	reservation.POST("/delete", controllers.Profile).Use(middleware.Auth())
+    reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth())
 
 	api.POST("/search")
 
