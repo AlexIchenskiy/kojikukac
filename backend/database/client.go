@@ -22,14 +22,17 @@ func InitDatabase() (err error) {
 	if err != nil {
 		log.Fatal("Error reading .env file")
 	}
+
 	// Create the data source name (DSN) using the environment variables
 	dsn := fmt.Sprintf(
-		"%s:%s@(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		"%s:%s@tcp(%s:3306)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		config["DB_USERNAME"],
 		config["DB_PASSWORD"],
 		config["DATABASE_HOST"],
 		config["DB_DATABASE"],
 	)
+
+	fmt.Printf("%s", dsn)
 	// Create the connection and store it in the GlobalDB variable
 	GlobalDB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

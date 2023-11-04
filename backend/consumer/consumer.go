@@ -1,4 +1,4 @@
-package consumer
+package main
 
 //Copyright (c) Microsoft Corporation. All rights reserved.
 //Copyright 2016 Confluent Inc.
@@ -54,23 +54,23 @@ func main() {
 
 	topics := []string{"team8"}
 	c.SubscribeTopics(topics, nil)
-
+	var newspot ParkingSpotUpdate
 	for {
 		msg, err := c.ReadMessage(-1)
 		if err == nil {
 			fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
-			var newspot ParkingSpotUpdate
 
-			err1 := json.Unmarshal(msg.Value, &newspot)
+			err1 := json.Unmarshal([]byte(msg.Value), &newspot)
 
 			if err1 != nil {
 				fmt.Printf("%s\n", err1)
 			}
 
+			fmt.Printf("Struct is:", newspot)
 			fmt.Printf("Id is:%s\n", newspot.id)
 			fmt.Printf("Occupied is:%t\n", newspot.occupied)
 			fmt.Printf("Time is:%s\n", newspot.occupiedTime)
-
+			break
 		} else {
 			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
 			break
