@@ -102,7 +102,7 @@ func Login(c *gin.Context) {
 		ExpirationMinutes: 1,
 		ExpirationHours:   12,
 	}
-	signedToken, err := jwtWrapper.GenerateToken(fmt.Sprintf("%s%s", user.Email, time.Now()))
+	signedToken, err := jwtWrapper.GenerateToken(fmt.Sprintf("%s%s", time.Now(), user.Email))
 	if err != nil {
 		log.Println(err)
 		c.JSON(500, gin.H{

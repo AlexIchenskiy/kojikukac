@@ -24,7 +24,7 @@ func main() {
 
 	// Initialize Router
 	router := gin.Default()
-	router.Use(middleware.Cors())
+	router.Use(middleware.Cors(), middleware.Auth())
 	api := router.Group("/api")
 	user := api.Group("/user")
 	user.POST("/login", controllers.Login).Use(middleware.Cors())

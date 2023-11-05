@@ -11,7 +11,7 @@ import (
 type Session struct {
 	gorm.Model
 	Email string `json:"email" binding:"required"`
-    Token string `json:"token" binding:"required" gorm:"unique"`
+    Token string `json:"token" binding:"required" gorm:"type:text"`
 }
 
 func (session *Session) CreateSessionRecord() error {

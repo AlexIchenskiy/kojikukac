@@ -20,7 +20,7 @@ func Profile(c *gin.Context) {
     email, exists := c.Get("email") 
     if !exists {
         c.JSON(404, gin.H{
-            "Error": "User Not Found",
+            "Error": "Token not provided",
         })
         c.Abort()
         return
