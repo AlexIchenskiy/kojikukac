@@ -14,11 +14,8 @@ type Resevation struct {
 	EndM          string `json:"endm" binding:"required"`
 }
 
-// CreateUserRecord creates a user record in the database
-// CreateUserRecord takes a pointer to a User struct and creates a user record in the database
-// It returns an error if there is an issue creating the user record
-func (rezervation *Resevation) CreateReservation() error {
-	result := database.GlobalDB.Create(&rezervation)
+func (reservation *Resevation) CreateReservation() error {
+	result := database.GlobalDB.Create(&reservation)
 	if result.Error != nil {
 		return result.Error
 	}

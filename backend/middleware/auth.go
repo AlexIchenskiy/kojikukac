@@ -3,9 +3,13 @@ package middleware
 import (
 	"backend/auth"
 	"backend/config"
+	"backend/database"
+	"backend/models"
+	"log"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 // Authz is a middleware that validates token and authorizes users
@@ -14,6 +18,7 @@ import (
 // and authorizing the user if the token is valid.
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
+        log.Println("this is working")
 		// Get the Authorization header from the request
 		clientToken := c.Request.Header.Get("Authorization")
 		if clientToken == "" {
@@ -21,7 +26,18 @@ func Auth() gin.HandlerFunc {
 			c.JSON(403, "No Authorization header provided")
 			c.Abort()
 			return
-		}
+		} else {
+            log.Printf("%s", clientToken)
+        }
+        session := models.Session { }
+        result := database.GlobalDB.Where("token = ?", clientToken).First(&session)
+        if result.Error == gorm.ErrRecordNotFound {
+            c.JSON(401, gin.H{
+                "Error": "Invalid User Credentials",
+            })
+            c.Abort()
+            return
+        }
 		// Split the Authorization header to get the token
 		extractedToken := strings.Split(clientToken, "Bearer ")
 		if len(extractedToken) == 2 {

@@ -21,7 +21,7 @@ func main() {
 
 	// Automigrate the User model
 	// AutoMigrate() automatically migrates our schema, to keep our schema upto date.
-	database.GlobalDB.AutoMigrate(&models.User{})
+	database.GlobalDB.AutoMigrate(&models.User{}, &models.Session{})
 
 	// Initialize Router
 	router := gin.Default()
@@ -30,7 +30,7 @@ func main() {
 	user := api.Group("/user")
 	user.POST("/login", controllers.Login).Use(middleware.Cors())
 	user.POST("/register", controllers.Register).Use(middleware.Cors())
-	user.GET("/", controllers.Profile).Use(middleware.Auth(), middleware.Cors())
+	user.GET("/", controllers.Profile).Use(middleware.Auth())
 
 	reservation := api.Group("/reservation")
 	reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
