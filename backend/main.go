@@ -32,7 +32,9 @@ func main() {
 	user.GET("/profile", controllers.Profile).Use(middleware.Cors(), middleware.Auth())
 
 	reservation := api.Group("/reservation")
-	reservation.POST("/add", controllers.AddReservation).Use(middleware.Cors(), middleware.Auth())
+	reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
+	// reservation.DELETE("/delete", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
+	// reservation.DELETE("/delete", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
 
 	api.GET("/search", controllers.Search).Use(middleware.Cors())
 

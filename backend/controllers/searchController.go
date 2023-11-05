@@ -30,7 +30,7 @@ func Search(c *gin.Context) {
 
 	if t.Type == "location" {
 		for _, i := range models.ParkingSpots {
-			distance := math.Sqrt(math.Pow((i.Latitude-t.Latitude), 2) + math.Pow((i.Longitude-float64(t.Longitude)), 2))
+			distance := math.Sqrt(math.Pow((i.Latitude-t.Latitude), 2) + math.Pow((i.Longitude-t.Longitude), 2))
 
 			if distance < t.Value {
 				returnVal = append(returnVal, i)
