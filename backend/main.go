@@ -27,9 +27,9 @@ func main() {
 	router.Use(middleware.Cors(), middleware.Auth())
 	api := router.Group("/api")
 	user := api.Group("/user")
-	user.POST("/login", controllers.Login).Use(middleware.Cors())
-	user.POST("/register", controllers.Register).Use(middleware.Cors())
-	user.GET("/", controllers.Profile).Use(middleware.Auth())
+	user.POST("/login", controllers.Login)
+	user.POST("/register", controllers.Register)
+	user.GET("/", controllers.Profile)
 
 	reservation := api.Group("/reservation")
 	reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
