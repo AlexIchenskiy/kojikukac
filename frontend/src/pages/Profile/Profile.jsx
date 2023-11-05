@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../components/header/Header";
 
 import "./Profile.scss";
@@ -13,14 +13,16 @@ const Profile = () => {
     },
   };
 
-  axios
-    .get("http://localhost:8080/api/user/profile")
-    .then((res) => {
-      setUserData(res);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/user/profile", config)
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   return (
     <>
@@ -53,7 +55,7 @@ const Profile = () => {
                   Creation date
                 </div>
                 <div className="data-user-block-general-subheading">
-                  {new Date(userData.createdAt).toUTCString()}
+                  {new Date(userData.CreatedAt).toUTCString()}
                 </div>
               </div>
             </div>
