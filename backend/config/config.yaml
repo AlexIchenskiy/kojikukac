@@ -1,5 +1,4 @@
-admins:
-  - email: admin1
-    password: 003654 
-  - email: admin2 
-    password: 0336 
+- email: admin1@burek.ba
+  password: pass1
+- email: admin2@burek.ba
+  password: pass2

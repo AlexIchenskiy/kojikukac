@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"log"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -36,7 +37,7 @@ func (j *JwtWrapper) GenerateToken(email string) (signedToken string, err error)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err = token.SignedString([]byte(j.SecretKey))
 	if err != nil {
-		return
+        log.Fatalf("%v", err)
 	}
 	return
 }
@@ -54,7 +55,7 @@ func (j *JwtWrapper) RefreshToken(email string) (signedtoken string, err error) 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedtoken, err = token.SignedString([]byte(j.SecretKey))
 	if err != nil {
-		return
+        log.Fatalf("%v", err)
 	}
 	return
 }
@@ -70,7 +71,7 @@ func (j *JwtWrapper) ValidateToken(signedToken string) (claims *JwtClaim, err er
 		},
 	)
 	if err != nil {
-		return
+        log.Fatalf("%v", err)
 	}
 	claims, ok := token.Claims.(*JwtClaim)
 	if !ok {

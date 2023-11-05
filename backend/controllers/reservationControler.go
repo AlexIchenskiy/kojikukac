@@ -36,6 +36,7 @@ func AddReservation(c *gin.Context) {
 	// Convert the map to a JSON string
 	jsonString, err := json.Marshal(data)
 	if err != nil {
+        log.Fatalf("%v", err)
 		log.Println(err)
 		c.JSON(500, gin.H{
 			"Error": "Internal Server Error",
