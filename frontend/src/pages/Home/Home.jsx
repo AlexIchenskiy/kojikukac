@@ -4,8 +4,7 @@ import Maps from "../../components/maps/Maps";
 import "./Home.scss";
 
 const Home = () => {
-  localStorage.clear();
-  /*axios
+    /*axios
     .get("http://localhost:8080/api/user")
     .then((res) => {
       console.log(res);
