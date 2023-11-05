@@ -10,7 +10,7 @@ const Header = () => {
         <FaMapMarkedAlt className='logo-container-logo' />
         <span className='logo-container-title'>BurekParking</span>
       </Link>
-      <div className='user-container'>A</div>
+      <Link to='/profile' className='user-container'>Y</Link>
     </header>
   )
 }

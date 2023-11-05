@@ -3,8 +3,11 @@ package middleware
 import (
 	"backend/auth"
 	"backend/config"
+<<<<<<< HEAD
+=======
 	"backend/database"
 	"backend/models"
+>>>>>>> 8624cf37e856c0dfbd702d31f6174f2b4a8fc69f
 	"log"
 	"strings"
 
@@ -44,8 +47,13 @@ func Auth() gin.HandlerFunc {
         }
 
 		// Set the claims in the context
+<<<<<<< HEAD
+		c.Set("email", claims.Email)
+		log.Printf("%s", claims.Email)
+=======
 		c.Set("email", session.Email)
 
+>>>>>>> 8624cf37e856c0dfbd702d31f6174f2b4a8fc69f
 		// Continue to the next handler
 		c.Next()
 	}

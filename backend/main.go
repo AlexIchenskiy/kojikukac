@@ -36,7 +36,7 @@ func main() {
 	// reservation.DELETE("/delete", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
 	// reservation.DELETE("/delete", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
 
-	api.POST("/search").Use(middleware.Cors())
+	api.GET("/search", controllers.Search).Use(middleware.Cors())
 
 	parkingSpot := api.Group("/ParkingSpot")
 	parkingSpot.GET("/getAll", controllers.GetParking)
