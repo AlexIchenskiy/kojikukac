@@ -36,7 +36,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           />
           <Route
             exact
-            path="/profile/:id"
+            path="/profile"
             element={
               <>
                 <ProtectedRoute />
