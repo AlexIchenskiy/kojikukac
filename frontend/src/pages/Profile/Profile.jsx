@@ -14,11 +14,7 @@ const Profile = () => {
   };
 
   axios
-<<<<<<< HEAD
     .get("http://localhost:8080/api/user/profile")
-=======
-    .get("http://localhost:8080/api/user", config)
->>>>>>> 05953691ac0d66747b2f46ee65c54047c7692068
     .then((res) => {
       setUserData(res);
     })
