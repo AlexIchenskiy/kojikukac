@@ -1,5 +1,4 @@
-// import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "../../components/header/Header";
 
 import "./Profile.scss";
@@ -7,25 +6,14 @@ import "./Profile.scss";
 const Profile = () => {
   const [userData, setUserData] = useState(null);
 
-  /*axios
+  axios
     .get("http://localhost:8080/api/user")
     .then((res) => {
       setUserData(res)
     })
     .catch((err) => {
       console.error(err);
-    });*/
-
-  useEffect(() => {
-    setUserData({
-      createdAt: '2020-05-12T23:50:21.817Z',
-      updatedAt: '2021-05-12T23:50:21.817Z',
-      ID: 1,
-      firstname: 'Alex',
-      lastname: 'Lastname',
-      email: 'alex@burek.ba',
-    })
-  }, [])
+    });
 
   return (
     <>
