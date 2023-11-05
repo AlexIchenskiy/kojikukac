@@ -35,10 +35,11 @@ func main() {
 	reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
 
 	api.GET("/ParkingSpot/getAll", controllers.GetParking).Use(middleware.Auth(), middleware.Cors())
+	api.GET("/ParkingSpot/update", controllers.GetParking).Use(middleware.Auth(), middleware.Cors())
 
 	api.POST("/search").Use(middleware.Cors())
 
-	go consumer.Consume("goroutine")
+	consumer.Consume()
 
 	router.Run(":8080")
 }

@@ -12,48 +12,34 @@ export KAFKA_EVENTHUB_CONNECTION_STRING="Endpoint=sb://cbq-hackathon.servicebus.
 */
 import (
 	//"encoding/json"
+	"context"
 	"flag"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
+	"time"
 
-	"log"
+	"nhooyr.io/websocket"
+	"nhooyr.io/websocket/wsjson"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"github.com/gorilla/websocket"
 )
 
 var addr = flag.String("addr", "localhost:6969", "http service address")
 
-var upgrader = websocket.Upgrader{} // use default options
 var message string
 
-/*
-	type ParkingSpotUpdate struct {
-		Id         string
-		IsOccupied bool
-		Time       string
-	}
-
-	type ParkingSpot struct {
-		id                string
-		latitude          int
-		longitude         int
-		parkingSpotZone   string
-		occupied          bool
-		occupiedTimeStamp string
-	}
-*/
-func Consume(from string) {
+func Consume() {
 	consumerGroup := "consumergroup"
 
 	// https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
-		"bootstrap.servers": "cbq-hackathon.servicebus.windows.net:9093",
+		"bootstrap.servers": os.Getenv("KAFKA_EVENTHUB_ENDPOINT"),
 		"sasl.mechanisms":   "PLAIN",
 		"security.protocol": "SASL_SSL",
 		"sasl.username":     "$ConnectionString",
-		"sasl.password":     "Endpoint=sb://cbq-hackathon.servicebus.windows.net/;SharedAccessKeyName=n;SharedAccessKey=p3fH0pzw46YajywaIyAaWRK+HGqMBLgBV+AEhNWlq+4=;EntityPath=team8",
+		"sasl.password":     os.Getenv("KAFKA_EVENTHUB_CONNECTION_STRING"),
 		"group.id":          consumerGroup,
 		"auto.offset.reset": "earliest",
 		"debug":             "consumer",
@@ -65,22 +51,46 @@ func Consume(from string) {
 
 	topics := []string{"team8"}
 	c.SubscribeTopics(topics, nil)
-	//var newspot ParkingSpotUpdate
 
-	for {
+	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		c, err := websocket.Accept(w, r, nil)
+		if err != nil {
+			// ...
+		}
+		defer c.CloseNow()
+
+		ctx, cancel := context.WithTimeout(r.Context(), time.Second*10)
+		defer cancel()
+
+		var v interface{}
+		err = wsjson.Write(ctx, c, &message)
+		if err != nil {
+			// ...
+		}
+
+		log.Printf("received: %v", v)
+
+		c.Close(websocket.StatusNormalClosure, "")
+	})
+	go serve(fn)
+
+	for true {
 		msg, err := c.ReadMessage(-1)
-		if err == nil {
+
+		if err != nil {
+			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
+			break
+		} else {
 			fmt.Printf("%s\n", string(msg.Value))
 
 			message = string(msg.Value)
-			var writer http.ResponseWriter
 
-			flag.Parse()
-			log.SetFlags(0)
-			http.HandleFunc("/echo", Echo)
-			log.Fatal(http.ListenAndServe(*addr, nil))
+			//var writer http.ResponseWriter
 
-			Echo(writer, &http.Request{})
+			/*flag.Parse()
+			log.SetFlags(0)*/
+
+			//Echo(writer, &http.Request{})
 
 			/*
 				err1 := json.Unmarshal([]byte(string(msg.Value)), &newspot)
@@ -95,31 +105,14 @@ func Consume(from string) {
 				}
 			*/
 
-		} else {
-			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
-			break
 		}
+
 	}
 
 	c.Close()
 }
 
-func Echo(w http.ResponseWriter, r *http.Request) {
-	c, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Print("upgrade:", err)
-		return
-	}
-	defer c.Close()
-
-	//_, message, err := c.ReadMessage()
-	if err != nil {
-		log.Println("read:", err)
-	}
-
-	err = c.WriteMessage(websocket.TextMessage, []byte(message))
-	if err != nil {
-		log.Println("write:", err)
-	}
-
+func serve(fn http.HandlerFunc) {
+	err := http.ListenAndServe("localhost:6969", fn)
+	log.Fatal(err)
 }
