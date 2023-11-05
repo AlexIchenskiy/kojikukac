@@ -33,13 +33,17 @@ func main() {
 
 	reservation := api.Group("/reservation")
 	reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
+	// reservation.DELETE("/delete", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
+	// reservation.DELETE("/delete", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
 
 	api.POST("/search").Use(middleware.Cors())
 
 	parkingSpot := api.Group("/ParkingSpot")
-	parkingSpot.GET("/getAll", controllers.GetParking).Use(middleware.Auth(), middleware.Cors())
+	parkingSpot.GET("/getAll", controllers.GetParking)
 	parkingSpot.POST("/", controllers.GetParking).Use(middleware.AdminAuth(), middleware.Cors())
 	parkingSpot.DELETE("/{id}", controllers.GetParking).Use(middleware.AdminAuth(), middleware.Cors())
+
+    
 
 	//go consumer.Consume()
 
