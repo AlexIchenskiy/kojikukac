@@ -37,6 +37,12 @@ function Map() {
   const onReserve = (e) => {
     e.preventDefault();
 
+    let config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+
     axios
       .post(
         `${constants.API_URL}/api/reservation/add`,
@@ -44,7 +50,8 @@ function Map() {
           parkingspotid: selected.id,
           endh: parseInt(timeValue.split(" ")[0]),
           endm: parseInt(timeValue.split(" ")[1]),
-        })
+        }),
+        config
       )
       .then((res) => {
         console.log(res);
