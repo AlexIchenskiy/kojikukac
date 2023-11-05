@@ -25,6 +25,8 @@ const Auth = () => {
       .post("http://localhost:8080/api/user/login", JSON.stringify(loginData))
       .then((res) => {
         console.log(res);
+        localStorage.setItem("token", res.token);
+        window.location.replace("/home");
       })
       .catch((err) => {
         console.error(err);
@@ -43,6 +45,8 @@ const Auth = () => {
       )
       .then((res) => {
         console.log(res);
+        localStorage.setItem("token", res.token);
+        window.location.replace("/home");
       })
       .catch((err) => {
         console.error(err);

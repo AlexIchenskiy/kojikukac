@@ -1,0 +1,5 @@
+admins:
+  - email: admin1
+    password: 003654 
+  - email: admin2 
+    password: 0336 

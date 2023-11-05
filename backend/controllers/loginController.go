@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"backend/auth"
+	"backend/config"
 	"backend/database"
 	"backend/models"
 	"log"
@@ -41,6 +42,41 @@ func Login(c *gin.Context) {
 		c.Abort()
 		return
 	}
+	for _, admin := range config.GetAdmins() {
+		if admin.Email == payload.Email && admin.Password == payload.Password {
+			jwtWrapper := auth.JwtWrapper{
+				SecretKey:         "verysecretkey",
+				Issuer:            "AuthService",
+				ExpirationMinutes: 1,
+				ExpirationHours:   12,
+			}
+			signedToken, err := jwtWrapper.GenerateToken(user.Email)
+			if err != nil {
+				log.Println(err)
+				c.JSON(500, gin.H{
+					"Error": "Error Signing Token",
+				})
+				c.Abort()
+				return
+			}
+			signedtoken, err := jwtWrapper.RefreshToken(user.Email)
+			if err != nil {
+				log.Println(err)
+				c.JSON(500, gin.H{
+					"Error": "Error Signing Token",
+				})
+				c.Abort()
+				return
+			}
+			tokenResponse := LoginResponse{
+				Token:        signedToken,
+				RefreshToken: signedtoken,
+			}
+			config.AdminTokens = append(config.AdminTokens, tokenResponse.Token)
+			c.JSON(200, tokenResponse)
+		}
+	}
+
 	result := database.GlobalDB.Where("email = ?", payload.Email).First(&user)
 	if result.Error == gorm.ErrRecordNotFound {
 		c.JSON(401, gin.H{
