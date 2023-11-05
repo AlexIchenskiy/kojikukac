@@ -19,6 +19,7 @@ func GetParking(c *gin.Context) {
 	// Create a new GET request to the target URL
 	req, err := http.NewRequest("GET", targetURL, nil)
 	if err != nil {
+        log.Printf("Error: %s", err)
 		c.JSON(500, gin.H{
 			"Error": "Could not create forward request",
 		})
@@ -32,6 +33,7 @@ func GetParking(c *gin.Context) {
 	// Perform the GET request
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
+        log.Printf("Error: %s", err)
 		c.JSON(500, gin.H{
 			"Error": "Could not get forward request",
 		})
@@ -43,6 +45,7 @@ func GetParking(c *gin.Context) {
 	// Read the response body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
+        log.Printf("Error: %s", err)
 		c.JSON(500, gin.H{
 			"Error": "Could not read response body",
 		})
@@ -52,7 +55,11 @@ func GetParking(c *gin.Context) {
 
 	err = json.Unmarshal(body, &models.ParkingSpots)
 	if err != nil {
-		log.Fatal(err)
+        // at least an hour has passed trying to figure out what's wrong here, only to find out
+        // someone used log.Fatalf(). Remember, log.Fatalf() will completely kill the backend so
+        // DO NOT JUST USE IT WILLY NILLY, AND ONLY USE IT WHERE THE BACKEND IS EXPECTED TO NOT 
+        // WORK PROPERLY, USE log.Printf() EVERYWHERE ELSE INSTEAD!
+        log.Printf("Error: %s", err)
 	}
 	fmt.Print(models.ParkingSpots)
 	// Set the status code of the forwarded response and send the response

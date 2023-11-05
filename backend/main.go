@@ -17,6 +17,7 @@ func main() {
 		// Log the error and exit
 		log.Fatalln("could not create database", err)
 	}
+
 	// Automigrate the User model
 	// AutoMigrate() automatically migrates our schema, to keep our schema upto date.
 	database.GlobalDB.AutoMigrate(&models.User{})
