@@ -1,0 +1,1 @@
+read the lines 58-61 in controllers/getParkingController.go, as it is very important, and make sure to ACTUALLY TEST EVERYTHING YOU WRITE BECAUSE THE FRONTEND TEAM SHOULD PROBABLY FOCUS ON IMPLEMENTING FEATURES INSTEAD OF DEBUGGING YOUR WORK
