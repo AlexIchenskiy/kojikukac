@@ -1,7 +1,6 @@
 package main
 
 import (
-	"backend/consumer"
 	"backend/controllers"
 	"backend/database"
 	"backend/middleware"
@@ -27,18 +26,21 @@ func main() {
 	router.Use(middleware.Cors())
 	api := router.Group("/api")
 	user := api.Group("/user")
-	user.POST("/login", controllers.Login)
-	user.POST("/register", controllers.Register)
-	user.GET("/", controllers.Profile).Use(middleware.Auth())
+	user.POST("/login", controllers.Login).Use(middleware.Cors())
+	user.POST("/register", controllers.Register).Use(middleware.Cors())
+	user.GET("/", controllers.Profile).Use(middleware.Auth(), middleware.Cors())
 
 	reservation := api.Group("/reservation")
 	reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
 
-	api.GET("/ParkingSpot/getAll", controllers.GetParking).Use(middleware.Auth(), middleware.Cors())
-
 	api.POST("/search").Use(middleware.Cors())
 
-	go consumer.Consume("goroutine")
+	parkingSpot := api.Group("/ParkingSpot")
+	parkingSpot.GET("/getAll", controllers.GetParking).Use(middleware.Auth(), middleware.Cors())
+	parkingSpot.POST("/", controllers.GetParking).Use(middleware.AdminAuth(), middleware.Cors())
+	parkingSpot.DELETE("/{id}", controllers.GetParking).Use(middleware.AdminAuth(), middleware.Cors())
+
+	//go consumer.Consume("goroutine")
 
 	router.Run(":8080")
 }

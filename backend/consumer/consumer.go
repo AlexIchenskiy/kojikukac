@@ -15,7 +15,6 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
-	"os"
 
 	"log"
 

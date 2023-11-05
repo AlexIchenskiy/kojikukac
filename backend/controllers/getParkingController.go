@@ -1,7 +1,11 @@
 package controllers
 
 import (
-	"io/ioutil"
+	"backend/models"
+	"encoding/json"
+	"fmt"
+	"io"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -37,7 +41,7 @@ func GetParking(c *gin.Context) {
 	defer resp.Body.Close()
 
 	// Read the response body
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"Error": "Could not read response body",
@@ -46,6 +50,11 @@ func GetParking(c *gin.Context) {
 		return
 	}
 
+	err = json.Unmarshal(body, &models.ParkingSpots)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Print(models.ParkingSpots)
 	// Set the status code of the forwarded response and send the response
 	c.Data(resp.StatusCode, resp.Header.Get("Content-Type"), body)
 }
