@@ -35,7 +35,7 @@ func main() {
 	reservation := api.Group("/reservation")
 	reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
 
-	api.POST("/search").Use(middleware.Cors())
+	api.GET("/search", controllers.Search).Use(middleware.Cors())
 
 	parkingSpot := api.Group("/ParkingSpot")
 	parkingSpot.GET("/getAll", controllers.GetParking).Use(middleware.Auth(), middleware.Cors())

@@ -45,7 +45,7 @@ func Consume() {
 	})
 
 	if err != nil {
-        log.Fatal(err)
+		log.Fatal(err)
 	}
 
 	topics := []string{"team8"}
@@ -77,32 +77,32 @@ func Consume() {
 		msg, err := c.ReadMessage(-1)
 
 		if err != nil {
-            log.Printf("Consumer error: %v (%v)\n", err, msg)
+			log.Printf("Consumer error: %v (%v)\n", err, msg)
 			break
-        }
-        log.Printf("%s\n", string(msg.Value))
+		}
+		// log.Printf("%s\n", string(msg.Value))
 
-        message = string(msg.Value)
+		message = string(msg.Value)
 
-        //var writer http.ResponseWriter
+		//var writer http.ResponseWriter
 
-        /*flag.Parse()
-        log.SetFlags(0)*/
+		/*flag.Parse()
+		  log.SetFlags(0)*/
 
-        //Echo(writer, &http.Request{})
+		//Echo(writer, &http.Request{})
 
-        /*
-        err1 := json.Unmarshal([]byte(string(msg.Value)), &newspot)
+		/*
+		   err1 := json.Unmarshal([]byte(string(msg.Value)), &newspot)
 
-        if err1 != nil {
-            fmt.Printf("%s\n", err1)
-        } else {
+		   if err1 != nil {
+		       fmt.Printf("%s\n", err1)
+		   } else {
 
-            fmt.Printf("Id is:%s\n", newspot.Id)
-            fmt.Printf("Occupied is:%t\n", newspot.IsOccupied)
-            fmt.Printf("Time is:%s\n", newspot.Time)
-        }
-        */
+		       fmt.Printf("Id is:%s\n", newspot.Id)
+		       fmt.Printf("Occupied is:%t\n", newspot.IsOccupied)
+		       fmt.Printf("Time is:%s\n", newspot.Time)
+		   }
+		*/
 	}
 
 	c.Close()

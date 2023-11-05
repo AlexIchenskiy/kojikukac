@@ -3,6 +3,7 @@ package middleware
 import (
 	"backend/auth"
 	"backend/config"
+	"log"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -48,7 +49,7 @@ func Auth() gin.HandlerFunc {
 		}
 		// Set the claims in the context
 		c.Set("email", claims.Email)
-
+		log.Printf("%s", claims.Email)
 		// Continue to the next handler
 		c.Next()
 	}
