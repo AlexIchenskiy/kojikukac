@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "../../components/header/Header";
 
 import "./Profile.scss";
+import axios from "axios";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
