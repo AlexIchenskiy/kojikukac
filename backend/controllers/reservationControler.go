@@ -70,6 +70,8 @@ func AddReservation(c *gin.Context) {
 		return
 	}
 
+	email, _ := c.Get("email")
+	reservation.Email = email.(string)
 	err1 := reservation.CreateReservation()
 	if err1 != nil {
 		log.Println(err)

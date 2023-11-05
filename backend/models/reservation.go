@@ -8,7 +8,7 @@ import (
 
 type Resevation struct {
 	gorm.Model
-	Email         string `json:"email" binding:"required" gorm:"unique"`
+	Email         string `json:"email"  gorm:"unique"`
 	ParkingSpotId string `json:"parkingspotid" binding:"required" gorm:"primaryKey"`
 	EndH          string `json:"endh" binding:"required"`
 	EndM          string `json:"endm" binding:"required"`
