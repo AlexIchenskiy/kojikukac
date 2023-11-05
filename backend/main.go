@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/consumer"
 	"backend/controllers"
 	"backend/database"
 	"backend/middleware"
@@ -40,7 +41,7 @@ func main() {
 	parkingSpot.POST("/", controllers.GetParking).Use(middleware.AdminAuth(), middleware.Cors())
 	parkingSpot.DELETE("/{id}", controllers.GetParking).Use(middleware.AdminAuth(), middleware.Cors())
 
-	//go consumer.Consume("goroutine")
+	go consumer.Consume()
 
 	router.Run(":8080")
 }
