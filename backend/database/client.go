@@ -2,9 +2,10 @@ package database
 
 import (
 	"fmt"
-	"log"
+	// "log"
+	"os"
 
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 
 	"gorm.io/gorm"
@@ -18,18 +19,30 @@ var GlobalDB *gorm.DB
 // It returns an error if the connection fails
 func InitDatabase() (err error) {
 	// Read the environment variables from the .env file
-	config, err := godotenv.Read()
-	if err != nil {
-		log.Fatal("Error reading .env file")
-	}
+	//config, err := godotenv.Read()
+	//if err != nil {
+		//log.Fatal("Error reading .env file")
+	//}
+
+    dbUsername := os.Getenv("DB_USERNAME")
+    dbPassword := os.Getenv("DB_PASSWORD")
+    databaseHost := os.Getenv("DATABASE_HOST")
+    dbDatabase := os.Getenv("DB_DATABASE")
 
 	// Create the data source name (DSN) using the environment variables
 	dsn := fmt.Sprintf(
 		"%s:%s@(%s:3306)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		config["DB_USERNAME"],
-		config["DB_PASSWORD"],
-		config["DATABASE_HOST"],
-		config["DB_DATABASE"],
+        dbUsername,
+        dbPassword,
+        databaseHost,
+        dbDatabase,
+	)
+	fmt.Printf(
+		"%s:%s@(%s:3306)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+        dbUsername,
+        dbPassword,
+        databaseHost,
+        dbDatabase,
 	)
 
 	// Create the connection and store it in the GlobalDB variable

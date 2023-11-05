@@ -18,5 +18,14 @@ services:
     ports:
       - "3307:8080"
 
+        #backend:
+        #build:
+        #dockerfile: Dockerfile-backend
+        #restart: always
+        #depends_on:
+        #- mysql
+        #env_file:
+        #- backend/.env
+
 volumes:
   mysql_data:
