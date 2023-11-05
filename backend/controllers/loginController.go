@@ -5,7 +5,9 @@ import (
 	"backend/config"
 	"backend/database"
 	"backend/models"
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -100,7 +102,7 @@ func Login(c *gin.Context) {
 		ExpirationMinutes: 1,
 		ExpirationHours:   12,
 	}
-	signedToken, err := jwtWrapper.GenerateToken(user.Email)
+	signedToken, err := jwtWrapper.GenerateToken(fmt.Sprintf("%s%s", time.Now(), user.Email))
 	if err != nil {
 		log.Println(err)
 		c.JSON(500, gin.H{
@@ -109,18 +111,16 @@ func Login(c *gin.Context) {
 		c.Abort()
 		return
 	}
-	signedtoken, err := jwtWrapper.RefreshToken(user.Email)
-	if err != nil {
-		log.Println(err)
-		c.JSON(500, gin.H{
-			"Error": "Error Signing Token",
-		})
-		c.Abort()
-		return
-	}
+
+    // create a new session record
+    newSession := models.Session {
+        Email: user.Email,
+        Token: signedToken,
+    }
+    newSession.CreateSessionRecord()
+
 	tokenResponse := LoginResponse{
-		Token:        signedToken,
-		RefreshToken: signedtoken,
+		Token: signedToken,
 	}
 	c.JSON(200, tokenResponse)
 }

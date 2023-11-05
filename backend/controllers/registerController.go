@@ -42,6 +42,6 @@ func Register(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{
-		"Message": "Sucessfully Register",
+		"Message": "Registered Successfully",
 	})
 }
