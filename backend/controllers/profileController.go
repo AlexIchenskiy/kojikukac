@@ -18,6 +18,7 @@ func Profile(c *gin.Context) {
 	var user models.User
 	// Get the email from the authorization middleware
 	email, _ := c.Get("email")
+	email = email.(string)
 	// Query the database for the user
 	result := database.GlobalDB.Where("email = ?", email.(string)).First(&user)
 	// If the user is not found, return a 404 status code
