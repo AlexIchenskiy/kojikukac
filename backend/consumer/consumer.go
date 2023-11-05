@@ -80,7 +80,7 @@ func Consume() {
 			log.Printf("Consumer error: %v (%v)\n", err, msg)
 			break
 		}
-		// log.Printf("%s\n", string(msg.Value))
+		log.Printf("%s\n", string(msg.Value))
 
 		message = string(msg.Value)
 
