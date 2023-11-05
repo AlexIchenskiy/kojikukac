@@ -20,26 +20,26 @@ func main() {
 
 	// Automigrate the User model
 	// AutoMigrate() automatically migrates our schema, to keep our schema upto date.
-	database.GlobalDB.AutoMigrate(&models.User{})
+	database.GlobalDB.AutoMigrate(&models.User{}, &models.Session{})
 
 	// Initialize Router
 	router := gin.Default()
-	router.Use(middleware.Cors())
+	router.Use(middleware.Cors(), middleware.Auth())
 	api := router.Group("/api")
 	user := api.Group("/user")
 	user.POST("/login", controllers.Login).Use(middleware.Cors())
 	user.POST("/register", controllers.Register).Use(middleware.Cors())
-	user.GET("/", controllers.GetParking).Use(middleware.Cors()).Use(middleware.Auth())
+	user.GET("/profile", controllers.Profile).Use(middleware.Cors(), middleware.Auth())
 
 	reservation := api.Group("/reservation")
-	reservation.POST("/add", controllers.AddReservation).Use(middleware.Auth(), middleware.Cors())
+	reservation.POST("/add", controllers.AddReservation).Use(middleware.Cors(), middleware.Auth())
 
-	api.POST("/search").Use(middleware.Cors())
+	api.GET("/search", controllers.Search).Use(middleware.Cors())
 
 	parkingSpot := api.Group("/ParkingSpot")
-	parkingSpot.GET("/getAll", controllers.GetParking).Use(middleware.Auth(), middleware.Cors())
-	parkingSpot.POST("/", controllers.GetParking).Use(middleware.AdminAuth(), middleware.Cors())
-	parkingSpot.DELETE("/{id}", controllers.GetParking).Use(middleware.AdminAuth(), middleware.Cors())
+	parkingSpot.GET("/getAll", controllers.GetParking).Use(middleware.Cors(), middleware.Auth())
+	parkingSpot.POST("/", controllers.GetParking).Use(middleware.Cors(), middleware.Auth())
+	parkingSpot.DELETE("/{id}", controllers.GetParking).Use(middleware.Cors(), middleware.Auth())
 
 	//go consumer.Consume()
 

@@ -11,6 +11,7 @@ type ParkingSpot struct {
 	ParkingSpotZone   string    `json:"parkingSpotZone"`
 	Occupied          bool      `json:"occupied"`
 	OccupiedTimestamp time.Time `json:"occupiedTimestamp"`
+	Price             float64   `json:"price"`
 }
 
 var ParkingSpots []ParkingSpot
